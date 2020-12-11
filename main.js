@@ -71,12 +71,12 @@ document.getElementById("new card").onclick = function() {draw_card()};
 
 function draw_card() {
   if (d.cards.length===0){
-    window.alert("Out of cards!");
     const oocardDiv = document.createElement('div')
     oocardDiv.innerText = ""
     oocardDiv.classList.add("emptycard")
     MiddleGrid = document.querySelector('.grid-item.middle')
     MiddleGrid.appendChild(oocardDiv)
+    window.alert("Out of cards!");
   } else {
   PlayerCardSlot1 = document.querySelector('.player1-card-slot')
   PlayerCardSlot2 = document.querySelector('.player2-card-slot')
@@ -131,3 +131,4 @@ function new_game() {
 
 let PlayerCardSlot1, PlayerCardSlot2, PlayerCardSlot3, PlayerCardSlot4
 let CardSlot, MiddleGrid, d, step
+window.alert("Press New Game to start!");
