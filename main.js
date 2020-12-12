@@ -7,11 +7,16 @@ class Card {
     get color(){
       return this.suit === '♣︎' || this.suit === '♠︎' ? 'black': 'red'
     }
-    getHTML() {
+    getHTML(step) {
       const cardDiv = document.createElement('div')
       cardDiv.innerText = this.suit
-      cardDiv.classList.add("card", this.color)
+      if (step%2 == 0 && step!=0) {
+        cardDiv.classList.add("card", this.color, "rotate")
+      } else {
+        cardDiv.classList.add("card", this.color)
+      }
       cardDiv.dataset.value = `${this.rank}${this.suit}`
+      cardDiv.id = ("newcard" + step.toString())
       return cardDiv
     }
 }
@@ -44,37 +49,15 @@ class Deck {
     }
 }
 
-class Board {
-    constructor() {
-        this.cardsInMiddle = [];
-        this.players = [];
-    }
-    start(playerOneName, playerTwoName) {
-        this.players.push(new Player(playerOneName));
-        this.players.push(new Player(playerTwoName));
-        let d = new Deck();
-        d.createDeck();
-        d.shuffleDeck();
-        this.players[0].playerCards = d.cards.slice(0, 26);
-        this.players[1].playerCards = d.cards.slice(26, 52);
-    }
-}
-class Player {
-    constructor(name) {
-        this.playerName = name;
-        this.playerCards = [];
-    }
-}
-
 document.getElementById("new game").onclick = function() {new_game()};
-document.getElementById("new card").onclick = function() {draw_card()};
 
 function draw_card() {
+  step++
+  MiddleGrid = document.querySelector('.grid-item.middle')
   if (d.cards.length===0){
     const oocardDiv = document.createElement('div')
     oocardDiv.innerText = ""
     oocardDiv.classList.add("emptycard")
-    MiddleGrid = document.querySelector('.grid-item.middle')
     MiddleGrid.appendChild(oocardDiv)
     window.alert("Out of cards!");
   } else {
@@ -84,12 +67,31 @@ function draw_card() {
   PlayerCardSlot4 = document.querySelector('.player4-card-slot')
   let players = [PlayerCardSlot1, PlayerCardSlot2,
                  PlayerCardSlot3, PlayerCardSlot4]
-  players[step%4].appendChild(d.cards[0].getHTML());
+  const emptycardDiv = document.createElement('div')
+  emptycardDiv.innerText = ""
+  emptycardDiv.classList.add("emptycard_pl")
+  emptycardDiv.id = ("ecardslot" + step.toString())
+  players[(step-1)%4].appendChild(emptycardDiv);
+  MiddleGrid.appendChild(d.cards[0].getHTML(step))
+  var elem = document.getElementById("newcard" + step.toString());
+  var diffX = emptycardDiv.getBoundingClientRect().left - elem.getBoundingClientRect().left;
+  var diffY = emptycardDiv.getBoundingClientRect().top - elem.getBoundingClientRect().top;
+  var dx = diffX / 20;
+  var dy = diffY / 20;
+  var pos = 0;
+  var id = setInterval(frame, 5);
+  function frame() {
+       if (pos == 20) {
+       clearInterval(id);
+   } else {
+        pos++;
+        elem.style.top = (parseFloat(elem.style.top)||0) + dy + 'px';
+        elem.style.left = (parseFloat(elem.style.left)||0) + dx + 'px';
+    }
+  }
   d.cards.shift()
-  step++
   }
 }
-
 function removeChildren(slot){
   if (slot.hasChildNodes()){
     const length = slot.childNodes.length
@@ -100,15 +102,23 @@ function removeChildren(slot){
 }
 
 function new_game() {
-  CardSlot = document.querySelector('.card-slot')
   MiddleGrid = document.querySelector('.grid-item.middle')
   PlayerCardSlot1 = document.querySelector('.player1-card-slot')
   PlayerCardSlot2 = document.querySelector('.player2-card-slot')
   PlayerCardSlot3 = document.querySelector('.player3-card-slot')
   PlayerCardSlot4 = document.querySelector('.player4-card-slot')
-  if(MiddleGrid.childNodes.length===6){
-    MiddleGrid.removeChild(MiddleGrid.childNodes[5]);
-  }
+  removeChildren(MiddleGrid);
+  const deckDiv = document.createElement('div')
+  deckDiv.innerText = ""
+  deckDiv.classList.add("deck")
+  deckDiv.id = "new card"
+  deckDiv.onclick = function() {draw_card()};
+  const cardslotDiv = document.createElement('div')
+  cardslotDiv.innerText = ""
+  cardslotDiv.classList.add("card-slot")
+  MiddleGrid.appendChild(deckDiv);
+  MiddleGrid.appendChild(cardslotDiv);
+  CardSlot = document.querySelector('.card-slot')
   step = 0;
   d = new Deck();
   if (CardSlot.hasChildNodes()) {
@@ -119,12 +129,12 @@ function new_game() {
     removeChildren(PlayerCardSlot4);
     d.createDeck();
     d.shuffleDeck();
-    CardSlot.appendChild(d.cards[0].getHTML());
+    CardSlot.appendChild(d.cards[0].getHTML(step));
     d.cards.shift()
   } else {
     d.createDeck();
     d.shuffleDeck();
-    CardSlot.appendChild(d.cards[0].getHTML());
+    CardSlot.appendChild(d.cards[0].getHTML(step));
     d.cards.shift()
     }
 }

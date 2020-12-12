@@ -56,8 +56,6 @@ body {
 
 .deck {
   position: absolute;
-  top: 11.5rem;
-  left: 10rem;
   display: flex;
   height: 6rem;
   width: 4rem;
@@ -73,8 +71,6 @@ body {
 
 .emptycard{
   position: absolute;
-  top: 11.5rem;
-  left: 10rem;
   display: flex;
   height: 6rem;
   width: 4rem;
@@ -87,6 +83,15 @@ body {
   background-color: green;
 }
 
+.emptycard_pl{
+  display: flex;
+  height: 6rem;
+  width: 4rem;
+  justify-content: center;
+  align-items: center;
+  font-size: 3rem;
+  user-select: none;
+}
 .text {
   display: flex;
   justify-content: center;
@@ -103,7 +108,7 @@ body {
 }
 
 .card {
-  position: relative;
+  position: absolute;
   height: 6rem;
   width: 4rem;
   border: 1px solid black;
@@ -117,11 +122,13 @@ body {
   -webkit-transition: 2s linear;
   -webkit-transform-style: preserve-3d;
 }
+.card.rotate{
+  transform: rotate(90deg)
+}
 
 .card-slot {
   position: absolute;
-  top: 11.5rem;
-  right: 10rem;
+  left: 5rem;
   display: flex;
   height: 6rem;
   width: 4rem;
