@@ -114,6 +114,8 @@ body {
   border-radius: .5rem;
   user-select: none;
   background-color: white;
+  -webkit-transition: 2s linear;
+  -webkit-transform-style: preserve-3d;
 }
 
 .card-slot {

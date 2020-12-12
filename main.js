@@ -131,4 +131,3 @@ function new_game() {
 
 let PlayerCardSlot1, PlayerCardSlot2, PlayerCardSlot3, PlayerCardSlot4
 let CardSlot, MiddleGrid, d, step
-window.alert("Press New Game to start!");
