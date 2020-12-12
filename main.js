@@ -9,6 +9,7 @@ class Card {
     }
     getHTML() {
       const cardDiv = document.createElement('div')
+      cartDiv.id = "new_card";
       cardDiv.innerText = this.suit
       cardDiv.classList.add("card", this.color)
       cardDiv.dataset.value = `${this.rank}${this.suit}`
@@ -69,6 +70,27 @@ class Player {
 document.getElementById("new game").onclick = function() {new_game()};
 document.getElementById("new card").onclick = function() {draw_card()};
 
+function collect(){
+    var elem = document.getElementById("new_card");
+    var testDiv = document.getElementById("ecardslot");
+    var diffX = testDiv.getBoundingClientRect().left - elem.getBoundingClientRect().left;
+    var diffY = testDiv.getBoundingClientRect().top - elem.getBoundingClientRect().top;
+    var dx = diffX / 150;
+    var dy = diffY / 150;
+    var pos = 0;
+    var id = setInterval(frame, 5);
+    function frame() {
+         if (pos == 150) {
+         clearInterval(id);
+     } else {
+          pos++;
+          elem.style.top = (parseFloat(elem.style.top)||0) + dy + 'px';
+          elem.style.left = (parseFloat(elem.style.left)||0) + dx + 'px';
+      }
+    }
+
+}
+
 function draw_card() {
   if (d.cards.length===0){
     const oocardDiv = document.createElement('div')
@@ -84,7 +106,30 @@ function draw_card() {
   PlayerCardSlot4 = document.querySelector('.player4-card-slot')
   let players = [PlayerCardSlot1, PlayerCardSlot2,
                  PlayerCardSlot3, PlayerCardSlot4]
-  players[step%4].appendChild(d.cards[0].getHTML());
+  const emptycardDiv = document.createElement('div')
+  emptycardDiv.innerText = ""
+  emptycardDiv.classList.add("emptycard")
+  emptycardDiv.id = 'ecardslot'
+  players[step%4].appendChild(emptycardDiv);
+  MiddleGrid = document.querySelector('.grid-item.middle')
+  MiddleGrid.appendChild(d.cards[0].getHTML())
+  var elem = document.getElementById("new_card");
+  var testDiv = document.getElementById("ecardslot");
+  var diffX = testDiv.getBoundingClientRect().left - elem.getBoundingClientRect().left;
+  var diffY = testDiv.getBoundingClientRect().top - elem.getBoundingClientRect().top;
+  var dx = diffX / 150;
+  var dy = diffY / 150;
+  var pos = 0;
+  var id = setInterval(frame, 5);
+  function frame() {
+       if (pos == 150) {
+       clearInterval(id);
+   } else {
+        pos++;
+        elem.style.top = (parseFloat(elem.style.top)||0) + dy + 'px';
+        elem.style.left = (parseFloat(elem.style.left)||0) + dx + 'px';
+    }
+  }
   d.cards.shift()
   step++
   }
