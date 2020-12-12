@@ -9,7 +9,6 @@ class Card {
     }
     getHTML() {
       const cardDiv = document.createElement('div')
-      cartDiv.id = "new_card";
       cardDiv.innerText = this.suit
       cardDiv.classList.add("card", this.color)
       cardDiv.dataset.value = `${this.rank}${this.suit}`
@@ -85,12 +84,7 @@ function draw_card() {
   PlayerCardSlot4 = document.querySelector('.player4-card-slot')
   let players = [PlayerCardSlot1, PlayerCardSlot2,
                  PlayerCardSlot3, PlayerCardSlot4]
-  const emptycardDiv = document.createElement('div')
-  emptycardDiv.innerText = ""
-  emptycardDiv.classList.add("emptycard")
-  emptycardDiv.id = 'ecardslot'
-  players[step%4].appendChild(emptycardDiv);
-  
+  players[step%4].appendChild(d.cards[0].getHTML());
   d.cards.shift()
   step++
   }
