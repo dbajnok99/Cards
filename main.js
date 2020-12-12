@@ -10,8 +10,12 @@ class Card {
     getHTML(step) {
       const cardDiv = document.createElement('div')
       cardDiv.innerText = this.suit
-      if (step%2 == 0 && step!=0) {
-        cardDiv.classList.add("card", this.color, "rotate")
+      if (step%4 == 2 && step!=0) {
+        cardDiv.classList.add("card", this.color, "rotate1")
+      } else if (step%4 == 3 && step!=0) {
+        cardDiv.classList.add("card", this.color, "rotate2")
+      } else if (step%4 == 0 && step!=0) {
+        cardDiv.classList.add("card", this.color, "rotate3")
       } else {
         cardDiv.classList.add("card", this.color)
       }

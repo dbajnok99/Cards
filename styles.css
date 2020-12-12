@@ -122,7 +122,13 @@ body {
   -webkit-transition: 2s linear;
   -webkit-transform-style: preserve-3d;
 }
-.card.rotate{
+.card.rotate1{
+  transform: rotate(270deg)
+}
+.card.rotate2{
+  transform: rotate(180deg)
+}
+.card.rotate3{
   transform: rotate(90deg)
 }
 
